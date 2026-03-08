@@ -1,0 +1,16 @@
+This is a sample pension policy document.
+    
+National Pension System (NPS) is a voluntary, defined contribution retirement savings scheme designed to enable the citizens to make systematic savings during their working life. 
+
+The primary objective of NPS is to institute pension reforms and to inculcate the habit of saving for retirement amongst the citizens.
+
+    Tier-I account: This is the non-withdrawable permanent retirement account into which the accumulations are deposited and invested as per the option of the subscriber.
+    Tier-II account: This is a voluntary withdrawable account which is allowed only when there is an active Tier I account in the name of the subscriber.
+
+Withdrawal Rules:
+1. Upon superannuation (60 years): At least 40% of the accumulated pension wealth of the subscriber needs to be utilized for purchase of an annuity providing for the monthly pension of the subscriber and the balance is paid as a lump sum to the subscriber.
+2. Pre-mature exit: At least 80% of the accumulated pension wealth of the subscriber should be utilized for purchase of an annuity providing for the monthly pension of the subscriber and the balance is paid as a lump sum to the subscriber.
+    
+    If the total accumulated pension wealth is less than or equal to Rs. 5 lakh, the subscriber can opt to withdraw entire accumulated pension wealth without purchasing any annuity.
+        
+3. Partial withdrawal: A subscriber can withdraw not exceeding 25% of his/her own contributions. The withdrawal is allowed only against the specified reasons, such as higher education of children, marriage of children, for the purchase/construction of residential house and for treatment of specified illnesses.

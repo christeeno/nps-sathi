@@ -4,3 +4,8 @@ __pycache__/
 *.pyc
 .env
 .DS_Store
+
+# Data and Vector DB
+data/processed_chunks.json
+data/*.faiss
+data/*.pkl
