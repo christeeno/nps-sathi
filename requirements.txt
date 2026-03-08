@@ -1,0 +1,9 @@
+langchain
+sentence-transformers
+faiss-cpu
+numpy
+pandas
+fastapi
+uvicorn
+pydantic
+python-dotenv
