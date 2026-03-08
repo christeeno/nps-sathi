@@ -28,11 +28,18 @@ def save_chunks_to_json(chunks: list, output_path: str):
     """
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     
-    # Serialize LangChain Documents into standard dicts
-    serialized_chunks = [
-        {"content": chunk.page_content, "metadata": chunk.metadata}
-        for chunk in chunks
-    ]
+    # Serialize LangChain Documents into standard dicts with deterministic IDs
+    serialized_chunks = []
+    for i, chunk in enumerate(chunks):
+        chunk_id = f"chunk_{i+1:04d}"
+        source = chunk.metadata.get("source", "unknown")
+        
+        serialized_chunks.append({
+            "chunk_id": chunk_id,
+            "text": chunk.page_content,
+            "source": source,
+            "metadata": chunk.metadata
+        })
 
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(serialized_chunks, f, ensure_ascii=False, indent=2)

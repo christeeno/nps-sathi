@@ -34,7 +34,7 @@ def run_phase_2():
     loaded_chunks = load_chunks_from_json(OUTPUT_JSON)
     print("\n--- Verification: Printing first 2 chunks ---")
     for i, c in enumerate(loaded_chunks[:2]):
-        print(f"\nChunk {i+1}:\n{c['content']}")
+        print(f"\n[{c.get('chunk_id')}] Source: {c.get('source')}\nText: {c.get('text')}")
 
 if __name__ == "__main__":
     run_phase_2()
