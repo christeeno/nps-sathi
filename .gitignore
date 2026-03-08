@@ -9,3 +9,6 @@ __pycache__/
 data/processed_chunks.json
 data/*.faiss
 data/*.pkl
+
+# Logs
+test_out*.txt
