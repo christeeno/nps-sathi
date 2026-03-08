@@ -11,16 +11,16 @@ from .vector_db import retrieve_context
 def get_llm():
     """
     Initializes the LLM based on available environment variables.
-    Currently supports OpenAI (OPENAI_API_KEY) and Google Gemini (GOOGLE_API_KEY).
+    Currently prioritizes Google Gemini, falling back to OpenAI.
     """
-    if os.getenv("OPENAI_API_KEY"):
+    if os.getenv("GOOGLE_API_KEY"):
+        print("Using Google Gemini 2.5 Flash...")
+        return ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
+    elif os.getenv("OPENAI_API_KEY"):
         print("Using OpenAI GPT-4o-mini...")
         return ChatOpenAI(model="gpt-4o-mini", temperature=0)
-    elif os.getenv("GOOGLE_API_KEY"):
-        print("Using Google Gemini 1.5 Flash...")
-        return ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0)
     else:
-        raise ValueError("No LLM API key found in environment variables. Please set OPENAI_API_KEY or GOOGLE_API_KEY.")
+        raise ValueError("No LLM API key found in environment variables. Please set GOOGLE_API_KEY or OPENAI_API_KEY.")
 
 def format_context(retrieved_chunks: list, max_tokens: int = 1200) -> str:
     """
