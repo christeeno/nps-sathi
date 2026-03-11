@@ -5,7 +5,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+from api.routes import router as api_router
+
 app = FastAPI(title="NPS Saathi API", description="AI-powered Pension Advisory System")
+
+app.include_router(api_router)
 
 @app.get("/")
 def read_root():
