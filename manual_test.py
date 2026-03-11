@@ -17,18 +17,37 @@ def main():
     print("Type 'exit' or 'quit' to close the console.")
     print("==================================================\n")
     
-    # We use a default generic profile for testing intents
-    default_profile = {
-        "age": 30,
-        "salary": 50000,
-        "monthly_contribution": 5000,
-        "risk_preference": "moderate",
-        "years_of_service": 5,
-        "government_employee": False,
-        "retirement_age": 60,
-        "expected_return": 0.10,
-        "volatility": 0.15
-    }
+    choice = input("Would you like to use the default user profile or enter a custom one? (default/custom) [default]: ").strip().lower()
+    if choice == 'custom':
+        print("\n--- Enter Custom Profile ---")
+        try:
+            profile = {
+                "age": int(input("Age (e.g. 30) [30]: ") or 30),
+                "salary": float(input("Monthly Salary (e.g. 50000) [50000]: ") or 50000),
+                "monthly_contribution": float(input("Monthly Contribution (e.g. 5000) [5000]: ") or 5000),
+                "risk_preference": (input("Risk Preference (low/moderate/high) [moderate]: ") or "moderate").strip(),
+                "years_of_service": int(input("Years of Service (e.g. 5) [5]: ") or 5),
+                "government_employee": input("Government Employee? (y/N): ").strip().lower() == 'y',
+                "retirement_age": int(input("Retirement Age (e.g. 60) [60]: ") or 60),
+                "expected_return": float(input("Expected Annual Return (e.g. 0.10) [0.10]: ") or 0.10),
+                "volatility": float(input("Volatility (e.g. 0.15) [0.15]: ") or 0.15)
+            }
+        except ValueError:
+            print("Invalid input detected. Falling back to default profile.")
+            profile = {"age": 30, "salary": 50000, "monthly_contribution": 5000, "risk_preference": "moderate", "years_of_service": 5, "government_employee": False, "retirement_age": 60, "expected_return": 0.10, "volatility": 0.15}
+        print("----------------------------\n")
+    else:
+        profile = {
+            "age": 30,
+            "salary": 50000,
+            "monthly_contribution": 5000,
+            "risk_preference": "moderate",
+            "years_of_service": 5,
+            "government_employee": False,
+            "retirement_age": 60,
+            "expected_return": 0.10,
+            "volatility": 0.15
+        }
 
     while True:
         try:
@@ -43,7 +62,7 @@ def main():
             print("\n[Thinking...]")
             
             # Send to the unified pipeline
-            result = handle_query(query, default_profile)
+            result = handle_query(query, profile)
             
             # Print the formatted response
             print("\n[NPS Saathi API Output]:")

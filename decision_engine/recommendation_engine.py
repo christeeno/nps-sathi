@@ -1,4 +1,11 @@
 import math
+import os
+import sys
+
+# Ensure the project root is in sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from forecasting_engine.retirement_model import generate_retirement_forecast
 
 def recommend_pension_scheme(user_profile: dict) -> dict:
     """
@@ -90,28 +97,21 @@ def generate_financial_advice(user_profile: dict) -> dict:
     risk_preference = user_profile.get("risk_preference", "moderate")
     allocation = recommend_asset_allocation(age, risk_preference)
     
-    # 3. Contribution Recommendation (using placeholder target logic)
+    # 3. Contribution Recommendation 
     # E.g., assume target pension is 50% of current monthly salary
     salary = user_profile.get("salary", 50000)
     target_pension = salary * 0.50
     
-    current_contribution = user_profile.get("monthly_contribution", 5000)
-    # Note: In a real system, we'd call the Phase 5/6 engines here to get the actual projected pension.
-    # For this task's scope without circular importing/calling the full pipeline directly, we'll
-    # simulate a quick proxy value based on the user_profile parameters to test the logic.
-    proxy_projected_pension = current_contribution * 3.5  # Rough proxy for testing logic
-    
-    current_forecast = {
-        "monthly_pension": proxy_projected_pension,
-        "monthly_contribution": current_contribution
-    }
+    current_forecast = generate_retirement_forecast(user_profile)
+    current_forecast["monthly_contribution"] = user_profile.get("monthly_contribution", 5000)
     
     additional_contribution = recommend_monthly_contribution(current_forecast, target_pension)
     
     # 4. Retirement Score (Abstract 1-100 metric based on shortfall)
     score = 100
     if additional_contribution > 0:
-        shortfall_ratio = additional_contribution / current_contribution
+        current_contribution = user_profile.get("monthly_contribution", 5000)
+        shortfall_ratio = additional_contribution / current_contribution if current_contribution > 0 else 1
         score = max(10, int(100 - (shortfall_ratio * 50)))
         
     return {
