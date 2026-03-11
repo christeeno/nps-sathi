@@ -1,0 +1,32 @@
+[
+    {
+        "question": "What is NPS Tier 1?",
+        "expected_keywords": ["mandatory", "withdrawal"],
+        "expected_intent": "knowledge_query"
+    },
+    {
+        "question": "Can I withdraw my money early?",
+        "expected_keywords": ["partial", "withdrawal"],
+        "expected_intent": "knowledge_query"
+    },
+    {
+        "question": "What is Bitcoin?",
+        "expected_keywords": ["outside", "scope", "pension"],
+        "expected_intent": "knowledge_query"
+    },
+    {
+        "question": "How much pension if I invest 5000 a month?",
+        "expected_keywords": [],
+        "expected_intent": "retirement_forecast"
+    },
+    {
+        "question": "Simulate my retirement with a stock market crash.",
+        "expected_keywords": [],
+        "expected_intent": "simulation"
+    },
+    {
+        "question": "Based on my profile, should I choose NPS or UPS?",
+        "expected_keywords": [],
+        "expected_intent": "investment_recommendation"
+    }
+]
