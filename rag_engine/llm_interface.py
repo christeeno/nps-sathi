@@ -43,11 +43,21 @@ def format_context(retrieved_chunks: list, max_tokens: int = 1200) -> str:
         
     return "\n\n".join(formatted_chunks)
 
-def generate_rag_response(query: str, retrieved_chunks: list) -> str:
+import json
+from .response_validator import validate_response
+
+def generate_rag_response(query: str, retrieved_chunks: list) -> dict:
     """
-    The main RAG pipeline generator.
-    Formats the retrieved context, applies the strict prompt template, and invokes the LLM.
+    The main RAG pipeline generator with hallucination prevention.
+    Formats the retrieved context, applies the strict prompt template, invokes the LLM,
+    and then parses and validates the response securely.
     """
+    if not retrieved_chunks:
+        return {
+            "answer": "This question is outside the scope of pension policy documents.",
+            "sources": []
+        }
+    
     llm = get_llm()
     context_text = format_context(retrieved_chunks)
     
@@ -58,5 +68,34 @@ def generate_rag_response(query: str, retrieved_chunks: list) -> str:
     })
     
     # Generate the response
-    response = llm.invoke(prompt_value)
-    return response.content
+    llm_output = llm.invoke(prompt_value).content
+    
+    # Parse the LLM output (expecting JSON)
+    try:
+        # Strip markdown json block if LLM added it
+        raw_json = llm_output.strip()
+        if raw_json.startswith("```json"):
+            raw_json = raw_json[7:-3].strip()
+        elif raw_json.startswith("```"):
+            raw_json = raw_json[3:-3].strip()
+            
+        parsed_response = json.loads(raw_json)
+        answer = parsed_response.get("answer", "")
+        sources = parsed_response.get("sources", [])
+        
+    except json.JSONDecodeError:
+        # Fallback if the LLM didn't return strict JSON
+        answer = llm_output
+        sources = []
+        
+    # Validate the semantic answer against rules
+    validated_answer = validate_response(answer, retrieved_chunks)
+    
+    # If the validator overwrote it with the rejection phrase, clear the sources
+    if validated_answer == "I could not find this information in the pension policy documents.":
+        sources = []
+        
+    return {
+        "answer": validated_answer,
+        "sources": sources
+    }
